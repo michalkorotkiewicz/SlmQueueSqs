@@ -1,5 +1,5 @@
 {
-    "name": "rollo-smartframe",
+    "name": "smartframe/queue-sqs",
     "description": "laminas module that integrates with Amazon SQS queuing system",
     "license": "BSD-3-Clause",
     "type": "library",
