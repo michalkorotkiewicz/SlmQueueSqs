@@ -1,5 +1,5 @@
 {
-    "name": "slm/queue-sqs",
+    "name": "rollo-smartframe",
     "description": "laminas module that integrates with Amazon SQS queuing system",
     "license": "BSD-3-Clause",
     "type": "library",
@@ -10,7 +10,7 @@
         "amazon aws",
         "sqs"
     ],
-    "homepage": "https://github.com/juriansluiman/SlmQueueSqs",
+    "homepage": "https://github.com/rollo-smartframe/SlmQueueSqs",
     "authors": [
         {
             "name": "Jurian Sluiman",
@@ -21,6 +21,11 @@
             "name": "Michaël Gallego",
             "email": "mic.gallego@gmail.com",
             "homepage": "http://www.michaelgallego.fr"
+        },
+        {
+            "name": "Tomasz Woźniak",
+            "email": "tomasz.wozniak@smartframe.io",
+            "homepage": "https://smartframe.io"
         }
     ],
     "require": {
@@ -41,14 +46,6 @@
         "laminas/laminas-mvc": "^2.5",
         "phpunit/phpunit": "^8",
         "squizlabs/php_codesniffer": "^2.1"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.1.x-dev"
-        },
-        "zf": {
-            "module": "SlmQueueSqs\\Module"
-        }
     },
     "autoload": {
         "psr-4": {
