@@ -2,13 +2,12 @@
 
 namespace SlmQueueSqs\Factory;
 
-use Aws\Sdk as Aws;
 use Interop\Container\ContainerInterface;
 use SlmQueue\Job\JobPluginManager;
 use SlmQueueSqs\Options\SqsQueueOptions;
 use SlmQueueSqs\Queue\SqsQueue;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * SqsQueueFactory

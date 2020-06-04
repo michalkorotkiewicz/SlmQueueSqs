@@ -3,11 +3,16 @@
 namespace SlmQueueSqsTest\Worker;
 
 use Aws\Sqs\Exception\SqsException;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use SlmQueue\Worker\Event\AbstractWorkerEvent;
 use SlmQueue\Worker\Event\ProcessJobEvent;
 use SlmQueue\Worker\WorkerEvent;
 use SlmQueueSqs\Worker\SqsWorker;
+use SlmQueue\Queue\QueueInterface;
+use SlmQueue\Job\JobInterface;
+use Laminas\EventManager\EventManagerInterface;
+use SlmQueueSqs\Queue\SqsQueueInterface;
+use Aws\CommandInterface;
 
 class SqsWorkerTest extends TestCase
 {
@@ -16,23 +21,23 @@ class SqsWorkerTest extends TestCase
      */
     protected $worker;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->worker = new SqsWorker($this->getMock('Zend\EventManager\EventManagerInterface'));
+        $this->worker = new SqsWorker($this->getMockBuilder(EventManagerInterface::class)->getMock());
     }
 
     public function testReturnsUnknownIfNotASqsQueue()
     {
-        $queue = $this->getMock('SlmQueue\Queue\QueueInterface');
-        $job   = $this->getMock('SlmQueue\Job\JobInterface');
+        $queue = $this->getMockBuilder(QueueInterface::class)->getMock();
+        $job   = $this->getMockBuilder(JobInterface::class)->getMock();
 
         $this->assertEquals(ProcessJobEvent::JOB_STATUS_UNKNOWN, $this->worker->processJob($job, $queue));
     }
 
     public function testDeleteJobOnSuccess()
     {
-        $queue = $this->getMock('SlmQueueSqs\Queue\SqsQueueInterface');
-        $job   = $this->getMock('SlmQueue\Job\JobInterface');
+        $queue = $this->getMockBuilder(SqsQueueInterface::class)->getMock();
+        $job   = $this->getMockBuilder(JobInterface::class)->getMock();
 
         $job->expects($this->once())->method('execute');
         $queue->expects($this->once())->method('delete')->with($job);
@@ -44,8 +49,8 @@ class SqsWorkerTest extends TestCase
 
     public function testDoNotDeleteJobOnFailure()
     {
-        $queue = $this->getMock('SlmQueueSqs\Queue\SqsQueueInterface');
-        $job   = $this->getMock('SlmQueue\Job\JobInterface');
+        $queue = $this->getMockBuilder(SqsQueueInterface::class)->getMock();
+        $job   = $this->getMockBuilder(JobInterface::class)->getMock();
 
         $job->expects($this->once())
             ->method('execute')
@@ -60,11 +65,11 @@ class SqsWorkerTest extends TestCase
 
     public function testRethrowSqsException()
     {
-        $this->setExpectedException('Aws\Sqs\Exception\SqsException');
+        $this->expectException(SqsException::class);
 
-        $queue = $this->getMock('SlmQueueSqs\Queue\SqsQueueInterface');
-        $job   = $this->getMock('SlmQueue\Job\JobInterface');
-        $command = $this->getMock('Aws\CommandInterface');
+        $queue = $this->getMockBuilder(SqsQueueInterface::class)->getMock();
+        $job   = $this->getMockBuilder(JobInterface::class)->getMock();
+        $command = $this->getMockBuilder(CommandInterface::class)->getMock();
 
         $job->expects($this->once())
             ->method('execute')

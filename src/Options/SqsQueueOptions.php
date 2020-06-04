@@ -2,7 +2,7 @@
 
 namespace SlmQueueSqs\Options;
 
-use Zend\Stdlib\AbstractOptions;
+use Laminas\Stdlib\AbstractOptions;
 
 /**
  * Simple queue options

@@ -2,17 +2,19 @@
 
 namespace SlmQueueSqsTest\Controller;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use SlmQueueSqs\Controller\SqsWorkerController;
-use Zend\Mvc\Router\RouteMatch;
+use Laminas\Mvc\Router\RouteMatch;
+use SlmQueue\Queue\QueueInterface;
+use SlmQueue\Worker\WorkerInterface;
 
 class SqsWorkerControllerTest extends TestCase
 {
     public function testCorrectlyCountJobs()
     {
-        $queue         = $this->getMock('SlmQueue\Queue\QueueInterface');
-        $worker        = $this->getMock('SlmQueue\Worker\WorkerInterface');
-        $pluginManager = $this->getMock('SlmQueue\Queue\QueuePluginManager', array(), array(), '', false);
+        $queue         = $this->createMock(QueueInterface::class);
+        $worker        = $this->createMock(WorkerInterface::class);
+        $pluginManager = $this->createMock('SlmQueue\Queue\QueuePluginManager', array(), array(), '', false);
 
         $pluginManager->expects($this->once())
                       ->method('get')
@@ -27,7 +29,7 @@ class SqsWorkerControllerTest extends TestCase
         $worker->expects($this->once())
                ->method('processQueue')
                ->with($queue)
-               ->will($this->returnValue(array('One state')));
+               ->willReturn(array('One state'));
 
         $result = $controller->processAction();
 

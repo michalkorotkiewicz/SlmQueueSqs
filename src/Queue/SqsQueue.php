@@ -61,7 +61,7 @@ class SqsQueue extends AbstractQueue implements SqsQueueInterface
      *
      * {@inheritDoc}
      */
-    public function push(JobInterface $job, array $options = array())
+    public function push(JobInterface $job, array $options = array()): void
     {
         $parameters = array(
             'QueueUrl'     => $this->queueOptions->getQueueUrl(),
@@ -95,7 +95,7 @@ class SqsQueue extends AbstractQueue implements SqsQueueInterface
      *
      * {@inheritDoc}
      */
-    public function pop(array $options = array())
+    public function pop(array $options = array()): ?JobInterface
     {
         $options['max_number_of_messages'] = 1;
 
@@ -118,7 +118,7 @@ class SqsQueue extends AbstractQueue implements SqsQueueInterface
     /**
      * {@inheritDoc}
      */
-    public function delete(JobInterface $job)
+    public function delete(JobInterface $job): void
     {
         $parameters = array(
             'QueueUrl'      => $this->queueOptions->getQueueUrl(),
