@@ -2,15 +2,37 @@
 
 namespace SlmQueueSqs\Controller;
 
-use SlmQueue\Controller\AbstractWorkerController;
+use Laminas\Mvc\Controller\AbstractActionController;
 use SlmQueue\Controller\Exception\WorkerProcessException;
 use SlmQueue\Exception\ExceptionInterface;
+use SlmQueue\Queue\QueuePluginManager;
+use SlmQueue\Worker\WorkerInterface;
 
 /**
  * This controller allow to execute jobs using the command line
  */
-class SqsWorkerController extends AbstractWorkerController
+class SqsWorkerController extends AbstractActionController
 {
+    /**
+     * @var WorkerInterface
+     */
+    protected $worker;
+
+    /**
+     * @var QueuePluginManager
+     */
+    protected $queuePluginManager;
+
+    /**
+     * @param WorkerInterface    $worker
+     * @param QueuePluginManager $queuePluginManager
+     */
+    public function __construct(WorkerInterface $worker, QueuePluginManager $queuePluginManager)
+    {
+        $this->worker = $worker;
+        $this->queuePluginManager = $queuePluginManager;
+    }
+
     /**
      * Process a queue
      *
@@ -36,5 +58,18 @@ class SqsWorkerController extends AbstractWorkerController
         }
 
         return $this->formatOutput($options['queue'], $messages);
+    }
+
+    protected function formatOutput(string $queueName, array $messages = []): string
+    {
+        $messages = implode("\n", array_map(function (string $message): string {
+            return sprintf(' - %s', $message);
+        }, $messages));
+
+        return sprintf(
+            "Finished worker for queue '%s':\n%s\n",
+            $queueName,
+            $messages
+        );
     }
 }

@@ -2,9 +2,9 @@
 
 namespace SlmQueueSqsTest\Controller;
 
+use Laminas\Router\RouteMatch;
 use PHPUnit\Framework\TestCase;
 use SlmQueueSqs\Controller\SqsWorkerController;
-use Laminas\Mvc\Router\RouteMatch;
 use SlmQueue\Queue\QueueInterface;
 use SlmQueue\Worker\WorkerInterface;
 
