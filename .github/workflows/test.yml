@@ -34,7 +34,7 @@ jobs:
           command: install
           args: --prefer-dist --no-progress --no-suggest --verbose
           php_version: ${{ matrix.php-versions }}
-          extensions: intl
+          php_extensions: intl
           version: 1
           ssh_key: ${{ secrets.SSH_KEY }}
           ssh_key_pub: ${{ secrets.SSH_KEY_PUB }}
