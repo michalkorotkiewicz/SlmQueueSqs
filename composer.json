@@ -59,5 +59,8 @@
         "psr-4": {
             "SlmQueueSqsTest\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
